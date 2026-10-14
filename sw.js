@@ -1,4 +1,4 @@
-const CACHE = 'nobudget-v2';
+const CACHE = 'nobudget-v3';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

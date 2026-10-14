@@ -69,15 +69,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 .homewrap{display:flex;flex-direction:column;gap:14px;padding-top:22px}
 .bigtile{
   position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;
-  width:100%;min-height:158px;padding:18px 18px 16px;border:0;border-radius:10px;text-align:left;color:#fff;
+  width:100%;min-height:136px;padding:18px 18px 16px;border:0;border-radius:10px;text-align:left;color:#fff;
 }
 .bigtile.budget{background:var(--red)}
-.bigtile.stats{background:var(--surface-2)}
+.bigtile.stats,.bigtile.vac{background:var(--surface-2)}
 .bigtile:active{filter:brightness(.88)}
 .bigtile .bt-title{display:block;max-width:100%;font-family:var(--display);font-size:60px;line-height:.9;letter-spacing:.03em;white-space:nowrap}
 .bigtile .bt-sub{font-size:14.5px;line-height:1.3}
 .bigtile.budget .bt-sub{color:rgba(255,255,255,.9)}
-.bigtile.stats .bt-sub{color:var(--muted)}
+.bigtile.stats .bt-sub,.bigtile.vac .bt-sub{color:var(--muted)}
 .bigtile .bt-ico{position:absolute;top:16px;right:16px;width:34px;height:34px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.95}
 .homenote{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
 .homenote p{margin:0 0 12px}
@@ -125,21 +125,26 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tile[aria-current="true"] .ts.pos{color:var(--pos-on-light)}
 .tile[aria-current="true"] .ts.neg{color:var(--neg-on-light)}
 
-.toolbar{display:flex;align-items:center;gap:8px;padding:4px 0 10px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:4px 0 10px}
 .pill{
-  display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 16px 0 12px;
+  display:inline-flex;align-items:center;gap:5px;height:44px;padding:0 14px 0 10px;
   border:1.5px solid rgba(255,255,255,.3);border-radius:22px;background:none;font-weight:600;font-size:14.5px;
 }
 .pill svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .pill:active{background:var(--surface-2)}
 .pill[aria-pressed="true"]{background:#fff;color:#141414;border-color:#fff}
 .pill[aria-pressed="true"] svg{stroke:#141414}
-.colh{margin-left:auto;color:var(--muted);font-size:13px;text-align:right;line-height:1.2}
 .edithint{margin:-2px 0 10px;color:var(--muted);font-size:13.5px}
 .minus{display:none;flex:none;width:40px;height:40px;margin-left:-6px;border:0;background:none;padding:0;place-items:center}
 .minus i{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--red)}
 .minus svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round}
 .list.editing .minus{display:grid}
+.tl{display:flex;align-items:center;gap:2px;min-width:0}
+.ren{display:none;flex:none;width:34px;height:34px;border:0;background:none;padding:0;place-items:center;border-radius:50%}
+.ren svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ren:active{background:var(--surface-2)}
+.list.editing .ren{display:grid}
+.list.editing .nm{cursor:pointer}
 .offhead{padding:16px 0 6px;color:var(--muted);font-size:13px;border-bottom:1px solid var(--line)}
 .offrow{min-height:52px}
 .offrow .t{color:var(--muted);text-decoration:line-through}
@@ -151,7 +156,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .list{border-top:1px solid var(--line)}
 .row{display:flex;align-items:center;gap:8px;min-height:60px;padding:7px 0;border-bottom:1px solid var(--line)}
 .nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
-.nm .t{font-weight:500;font-size:16px;overflow-wrap:anywhere}
+.nm .t{font-weight:500;font-size:16px;overflow-wrap:break-word;min-width:0}
 .nm small{color:var(--muted);font-size:12.5px;line-height:1.25}
 .row.edited .nm .t::before{
   content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
@@ -164,7 +169,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .reset svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .reset:active{background:var(--surface-2)}
 .row.edited .reset{visibility:visible}
-.list.editing .row .reset{visibility:hidden}
+.list.editing .row .reset{display:none}
 .amt{
   flex:none;width:132px;height:46px;display:flex;align-items:center;gap:6px;
   padding:0 12px;border-radius:8px;background:var(--surface-2);border:2px solid transparent;
@@ -217,7 +222,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .toast button:active{background:#ddd}
 
 /* Statistiche */
-.vtitle{margin:18px 0 12px;font-family:var(--display);font-weight:400;font-size:clamp(44px,14vw,60px);line-height:.95;letter-spacing:.03em}
+.vtitle{margin:18px 0 12px;font-family:var(--display);font-weight:400;font-size:clamp(44px,14vw,60px);line-height:.95;letter-spacing:.03em;white-space:nowrap}
 .seg{display:flex;gap:6px;margin:0 0 14px}
 .seg button{flex:1;height:44px;border:0;border-radius:6px;background:var(--surface);color:var(--text);font-weight:600;font-size:15px}
 .seg button[aria-pressed="true"]{background:#fff;color:#141414}
@@ -277,6 +282,39 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btn-ghost{background:var(--surface-2)}
 .btn-primary{background:var(--red);color:#fff}
 .ver{margin:18px 0 0;font-size:12px;color:#6f6f6f}
+.fnote{margin:-6px 0 14px;color:var(--muted);font-size:13.5px}
+.linkbtn{display:block;margin:10px auto 0;min-height:40px;background:none;border:0;color:var(--muted);text-decoration:underline;font-size:14px}
+.cgrid{max-height:44vh;overflow:auto;margin:0 0 14px;padding-right:2px}
+.cyear{margin:12px 0 6px;color:var(--muted);font-size:13px}
+.cyear:first-child{margin-top:0}
+.crow{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.cchip{height:44px;border:0;border-radius:6px;background:var(--surface-2);color:var(--text);font-weight:600;font-size:14px;padding:0}
+.cchip[aria-pressed="true"]{background:#fff;color:#141414}
+.cchip:disabled{opacity:.28}
+.btn-primary:disabled{opacity:.4}
+
+/* Fondo vacanze */
+.vpager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
+.vdots{display:flex;gap:2px}
+.vdot{position:relative;width:34px;height:30px;border:0;background:none;padding:0}
+.vdot::before{content:"";position:absolute;left:5px;right:5px;top:13px;height:4px;border-radius:2px;background:#4a4a4a}
+.vdot[aria-current="true"]::before{background:#fff}
+.trip{border-radius:12px;padding:20px 16px 4px;background:linear-gradient(180deg,rgba(229,9,20,.24),var(--surface) 60%)}
+.tname{position:relative;display:block}
+.tripname{
+  width:100%;padding:0 34px 4px 0;background:none;border:0;border-bottom:2px dashed rgba(255,255,255,.28);border-radius:0;
+  color:#fff;font-family:var(--display);font-size:clamp(40px,13vw,58px);line-height:1.05;letter-spacing:.03em;outline:none;
+}
+.tripname:focus{border-bottom:2px solid #fff}
+.tname svg{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:22px;height:22px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.tripsub{margin:8px 0 6px;color:var(--muted);font-size:13.5px}
+.trip .row:last-child{border-bottom:0}
+.trip .row.total .t{font-weight:700;font-size:17px}
+.trip .val{width:132px;flex:none;text-align:right;padding-right:14px;font-size:20px;font-weight:700;white-space:nowrap}
+.trip .val .eur{color:var(--muted);font-weight:500;margin-left:6px;font-size:15px}
+.vall{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:18px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.vall span{color:var(--muted);font-size:14.5px}
+.vall b{font-family:var(--display);font-weight:400;font-size:42px;letter-spacing:.02em;line-height:1;white-space:nowrap}
 
 @media (min-width:560px){
   .app{padding:0 24px}
@@ -309,6 +347,11 @@ button{font:inherit;color:inherit;cursor:pointer}
         <span class="bt-title">Statistiche</span>
         <span class="bt-sub">Mese, anno e dove vanno i soldi</span>
       </button>
+      <button type="button" class="bigtile vac" data-go="vac">
+        <svg class="bt-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>
+        <span class="bt-title">Fondo vacanze</span>
+        <span class="bt-sub" id="homeVacSub"></span>
+      </button>
     </div>
     <div class="homenote">
       <p id="storeNote"></p>
@@ -339,9 +382,9 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="toolbar">
       <button type="button" class="pill" id="btnAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Aggiungi</button>
       <button type="button" class="pill" id="btnEdit" aria-pressed="false"></button>
-      <span class="colh">Budget<br>del mese</span>
+      <button type="button" class="pill" id="btnCopy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>Copia</button>
     </div>
-    <p class="edithint" id="editHint" hidden>Tocca il segno meno per togliere una voce da questo mese.</p>
+    <p class="edithint" id="editHint" hidden>Tocca il meno rosso per togliere una voce da questo mese, tocca il nome per rinominarla.</p>
     <div class="list" id="list"></div>
     <div class="sum" id="sum"></div>
   </section>
@@ -364,6 +407,30 @@ button{font:inherit;color:inherit;cursor:pointer}
       </button>
     </div>
     <div id="statBody"></div>
+  </section>
+
+  <!-- FONDO VACANZE -->
+  <section class="view" id="vVac" aria-label="Fondo vacanze" hidden>
+    <h2 class="vtitle" id="vacTitle">Fondo vacanze</h2>
+    <div class="vpager">
+      <button class="arrow" id="vPrev" type="button" aria-label="Viaggio precedente">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="vdots" id="vDots"></div>
+      <button class="arrow" id="vNext" type="button" aria-label="Viaggio successivo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="trip" id="trip">
+      <label class="tname"><input class="tripname" id="tName" maxlength="30" autocomplete="off" enterkeyhint="done" aria-label="Nome del viaggio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg></label>
+      <p class="tripsub" id="tSub"></p>
+      <div class="row"><div class="nm"><span class="t">Quota Edo</span></div>
+        <label class="amt"><input data-v="edo" inputmode="decimal" enterkeyhint="done" autocomplete="off" aria-label="Quota Edo"><span class="eur">&euro;</span></label></div>
+      <div class="row"><div class="nm"><span class="t">Quota Ale</span></div>
+        <label class="amt"><input data-v="ale" inputmode="decimal" enterkeyhint="done" autocomplete="off" aria-label="Quota Ale"><span class="eur">&euro;</span></label></div>
+      <div class="row total"><div class="nm"><span class="t">Totale</span></div><div class="val" id="tTot"></div></div>
+    </div>
+    <div class="vall"><span>Totale fondo vacanze</span><b id="vAll"></b></div>
   </section>
 
   <footer class="dock" id="dock" hidden>
@@ -389,6 +456,32 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="sheet-actions">
       <button type="button" class="btn-ghost" id="fCancel">Annulla</button>
       <button type="button" class="btn-primary" id="fOk">Aggiungi</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="rsheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rTitle">
+    <h3 id="rTitle">Rinomina voce</h3>
+    <label class="fld"><span>Nuovo nome</span><input class="txt" id="rName" type="text" maxlength="40" autocomplete="off" enterkeyhint="done"></label>
+    <p class="fnote">Il nuovo nome vale per tutti i mesi.</p>
+    <p class="ferr" id="rErr" hidden></p>
+    <div class="sheet-actions">
+      <button type="button" class="btn-ghost" id="rCancel">Annulla</button>
+      <button type="button" class="btn-primary" id="rOk">Salva</button>
+    </div>
+    <button type="button" class="linkbtn" id="rOrig" hidden></button>
+  </div>
+</div>
+
+<div class="sheet-bg" id="csheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+    <h3 id="cTitle"></h3>
+    <p class="fnote" id="cNote"></p>
+    <div class="cgrid" id="cGrid"></div>
+    <div class="sheet-actions">
+      <button type="button" class="btn-ghost" id="cCancel">Annulla</button>
+      <button type="button" class="btn-primary" id="cOk" disabled>Copia</button>
     </div>
   </div>
 </div>
@@ -439,20 +532,25 @@ CATS.forEach(function(c){
   c.seasonal = hasZero && hasPos;
 });
 
-var state = { opening:0, ov:{}, inc:{}, off:{}, custom:[], t:0 };
+var VAC_NAMES = ['Tenerife','TBD aprile','Cina'];
+function defaultVac(){ return VAC_NAMES.map(function(n){ return {name:n, edo:0, ale:0}; }); }
+var state = { opening:0, ov:{}, inc:{}, off:{}, custom:[], names:{}, vac:defaultVac(), t:0 };
 
 // Voci aggiunte dall'utente: {id, name, amount, start, end} (indici dei mesi, estremi inclusi)
-function customCat(u){ return {id:u.id, name:u.name, amount:u.amount, start:u.start, end:u.end, custom:true, seasonal:false, hint:''}; }
+function customCat(u){ return {id:u.id, name:u.name, amount:u.amount, on:u.on, custom:true, seasonal:false, hint:''}; }
 function allCats(){
   var out = [], altro = null;
-  CATS.forEach(function(c){ if(c.id==='altro') altro = c; else out.push(c); });
+  CATS.forEach(function(c){
+    var cc = state.names[c.id] ? Object.assign({}, c, {name:state.names[c.id], orig:c.name}) : c;
+    if(c.id==='altro') altro = cc; else out.push(cc);
+  });
   state.custom.forEach(function(u){ out.push(customCat(u)); });
   if(altro) out.push(altro);
   return out;
 }
 function findCat(id){ var a = allCats(); for(var k=0;k<a.length;k++) if(a[k].id===id) return a[k]; return null; }
 function findCustom(id){ for(var k=0;k<state.custom.length;k++) if(state.custom[k].id===id) return state.custom[k]; return null; }
-function inRange(c,i){ return !c.custom || (i>=c.start && i<=c.end); }
+function inRange(c,i){ return !c.custom || !!c.on[i]; }
 function isActive(c,i){
   if(!inRange(c,i)) return false;
   var o = state.off[i];
@@ -460,7 +558,7 @@ function isActive(c,i){
 }
 
 function defVal(c,i){
-  if(c.custom) return (i>=c.start && i<=c.end) ? c.amount : 0;
+  if(c.custom) return c.on[i] ? c.amount : 0;
   var p=ym(i); return c.def(p.y,p.m);
 }
 function catVal(c,i){
@@ -544,8 +642,9 @@ function removeCat(c,i){ if(!state.off[i]) state.off[i]={}; state.off[i][c.id]=t
 function restoreCat(id,i){ clearKey(state.off,i,id); }
 function newId(){ return 'u_' + Date.now().toString(36) + Math.floor(Math.random()*1e6).toString(36); }
 function addCustom(name, amount, start, end){
-  var id = newId();
-  state.custom.push({id:id, name:name, amount:amount, start:start, end:end});
+  var id = newId(), on = {};
+  for(var i=start;i<=end;i++) on[i] = true;
+  state.custom.push({id:id, name:name, amount:amount, on:on});
   return id;
 }
 function deleteCustom(id){
@@ -556,12 +655,36 @@ function deleteCustom(id){
 function removeForward(c,i){
   if(c.custom){
     var u = findCustom(c.id); if(!u) return;
-    if(i<=u.start){ deleteCustom(u.id); return; }
-    u.end = Math.min(u.end, i-1);
-    for(var j=i;j<N;j++){ clearKey(state.ov,j,u.id); clearKey(state.off,j,u.id); }
+    for(var j=i;j<N;j++){ delete u.on[j]; clearKey(state.ov,j,u.id); clearKey(state.off,j,u.id); }
+    if(!Object.keys(u.on).length) deleteCustom(u.id);
   } else {
     for(var k=i;k<N;k++) removeCat(c,k);
   }
+}
+// Copia voci (presenti/tolte) e importi del mese src sul mese tgt. Stipendio e riporto restano.
+function copyMonth(src, tgt){
+  if(src===tgt) return;
+  allCats().forEach(function(c){
+    if(isActive(c,src)){
+      var v = catVal(c,src);
+      if(c.custom) findCustom(c.id).on[tgt] = true;
+      restoreCat(c.id, tgt);
+      setCat(findCat(c.id), tgt, v);
+    } else if(c.custom){
+      var u = findCustom(c.id);
+      if(u.on[tgt]){ delete u.on[tgt]; clearKey(state.ov,tgt,c.id); clearKey(state.off,tgt,c.id); }
+      if(!Object.keys(u.on).length) deleteCustom(u.id);
+    } else {
+      removeCat(c,tgt);
+    }
+  });
+}
+function origName(id){ for(var k=0;k<CATS.length;k++) if(CATS[k].id===id) return CATS[k].name; return null; }
+function renameCat(id, name){
+  var u = findCustom(id);
+  if(u){ u.name = name; return; }
+  var o = origName(id); if(o===null) return;
+  if(name===o) delete state.names[id]; else state.names[id] = name;
 }
 function applyPayForward(i){
   var v = payVal(i);
@@ -570,7 +693,7 @@ function applyPayForward(i){
 /*CORE-END*/
 
 /* ---------- Persistenza ---------- */
-var APP_VERSION = '1.1';
+var APP_VERSION = '1.2';
 var LS_KEY = 'nobudget.v1';
 var docRef = null, cloudOn = false, saving = false, dirty = false, saveTimer = null;
 
@@ -591,13 +714,33 @@ function adopt(s){
   });
   if(s && Array.isArray(s.custom)) s.custom.forEach(function(u){
     if(!u || typeof u.id!=='string' || !/^u_[a-z0-9]+$/.test(u.id) || typeof u.name!=='string') return;
-    var st = Math.max(0, Math.min(N-1, Math.floor(cleanNum(u.start)||0)));
-    var en = Math.max(st, Math.min(N-1, Math.floor(cleanNum(u.end)||0)));
-    custom.push({id:u.id, name:u.name.slice(0,40), amount:cleanNum(u.amount)||0, start:st, end:en});
+    var on = {};
+    if(Array.isArray(u.m)) u.m.forEach(function(i){ i = Math.floor(cleanNum(i)); if(i>=0 && i<N) on[i] = true; });
+    else {   // formato della versione 1.1: intervallo start..end
+      var st = Math.max(0, Math.min(N-1, Math.floor(cleanNum(u.start)||0)));
+      var en = Math.max(st, Math.min(N-1, Math.floor(cleanNum(u.end)||0)));
+      for(var i=st;i<=en;i++) on[i] = true;
+    }
+    if(Object.keys(on).length) custom.push({id:u.id, name:u.name.slice(0,40), amount:cleanNum(u.amount)||0, on:on});
   });
-  state = { opening: cleanNum(s&&s.opening)||0, ov:ov, inc:inc, off:off, custom:custom, t: cleanNum(s&&s.t)||0 };
+  var names = {};
+  if(s && s.names && typeof s.names==='object') Object.keys(s.names).forEach(function(id){
+    var nm = s.names[id];
+    if(origName(id)!==null && typeof nm==='string' && nm.trim()) names[id] = nm.trim().slice(0,40);
+  });
+  var vac = defaultVac();
+  if(s && Array.isArray(s.vac)) s.vac.slice(0,vac.length).forEach(function(t,k){
+    if(!t || typeof t!=='object') return;
+    if(typeof t.name==='string' && t.name.trim()) vac[k].name = t.name.trim().slice(0,30);
+    vac[k].edo = cleanNum(t.edo)||0; vac[k].ale = cleanNum(t.ale)||0;
+  });
+  state = { opening: cleanNum(s&&s.opening)||0, ov:ov, inc:inc, off:off, custom:custom, names:names, vac:vac, t: cleanNum(s&&s.t)||0 };
 }
-function serialize(){ return { v:2, t:state.t, opening:state.opening, ov:state.ov, inc:state.inc, off:state.off, custom:state.custom }; }
+function serialize(){
+  return { v:3, t:state.t, opening:state.opening, ov:state.ov, inc:state.inc, off:state.off,
+    custom: state.custom.map(function(u){ return {id:u.id, name:u.name, amount:u.amount, m:Object.keys(u.on).map(Number).sort(function(a,b){return a-b;})}; }),
+    names:state.names, vac:state.vac };
+}
 function localSave(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(serialize())); }catch(e){} }
 function localLoad(){
   try{ var raw=localStorage.getItem(LS_KEY); if(raw) adopt(JSON.parse(raw)); }catch(e){}
@@ -620,7 +763,7 @@ function flush(){
   });
 }
 function rerenderCurrent(){
-  if(view==='budget') renderMonth(); else if(view==='stats') renderStats(); else renderHome();
+  if(view==='budget') renderMonth(); else if(view==='stats') renderStats(); else if(view==='vac') renderVac(); else renderHome();
 }
 function initCloud(){
   try{
@@ -654,7 +797,7 @@ function initCloud(){
 
 /* ---------- Riferimenti DOM ---------- */
 var $ = function(id){ return document.getElementById(id); };
-var vHome=$('vHome'), vBudget=$('vBudget'), vStats=$('vStats'), dock=$('dock'), back=$('back'), logo=$('logo');
+var vHome=$('vHome'), vBudget=$('vBudget'), vStats=$('vStats'), vVac=$('vVac'), dock=$('dock'), back=$('back'), logo=$('logo');
 var elList=$('list'), elSum=$('sum'), elStrip=$('strip'), elName=$('mname'), elPeriod=$('mperiod');
 var elPrev=$('prev'), elNext=$('next'), elSaldo=$('saldo');
 var elToast=$('toast'), elToastMsg=$('toastMsg'), elToastBtn=$('toastBtn');
@@ -681,14 +824,15 @@ function updateDockH(){
 /* ---------- Navigazione tra le schermate ---------- */
 function show(v, push){
   view = v;
-  if(typeof closeSheet==='function') closeSheet();
-  if(typeof setEdit==='function' && editMode) setEdit(false);
-  vHome.hidden = v!=='home'; vBudget.hidden = v!=='budget'; vStats.hidden = v!=='stats';
+  closeSheets();
+  if(editMode) setEdit(false);
+  vHome.hidden = v!=='home'; vBudget.hidden = v!=='budget'; vStats.hidden = v!=='stats'; vVac.hidden = v!=='vac';
   dock.hidden = v!=='budget'; back.hidden = v==='home';
   hideToast();
   if(v==='home') renderHome();
   else if(v==='budget') renderMonth();
-  else renderStats();
+  else if(v==='stats') renderStats();
+  else renderVac();
   updateDockH();
   window.scrollTo(0,0);
   if(push){ try{ history.pushState({v:v},'','#'+v); canBack = true; }catch(e){ canBack = false; } }
@@ -714,6 +858,7 @@ function renderHome(){
   $('homeBudgetSub').textContent = cap(MONTHS[p.m-1])+' '+p.y+', saldo '+(s>0?'+':'')+fmt0(s)+' \u20ac';
   var tt = vHome.querySelectorAll('.bt-title'); for(var q=0;q<tt.length;q++) fitText(tt[q]);
   $('ver').textContent = 'NoBudget, versione '+APP_VERSION;
+  $('homeVacSub').textContent = state.vac.length+' viaggi, totale '+fmt0(vacAll())+' \u20ac';
   $('storeNote').textContent = cloudOn
     ? 'I dati sono salvati sul tuo account e su questo dispositivo.'
     : 'I dati sono salvati solo su questo dispositivo. Ogni tanto esporta un backup.';
@@ -749,7 +894,7 @@ $('fileImport').addEventListener('change', function(){
     try{
       var j = JSON.parse(r.result);
       var d = (j && j.data) ? j.data : j;
-      if(!d || typeof d!=='object' || (!d.ov && !d.inc && !d.custom && !d.off && d.opening===undefined)) throw new Error('bad');
+      if(!d || typeof d!=='object' || (!d.ov && !d.inc && !d.custom && !d.off && !d.vac && !d.names && d.opening===undefined)) throw new Error('bad');
       showToast('Backup letto. Sostituisce i dati attuali.', 'Sostituisci', function(){
         adopt(d); queueSave(); rerenderCurrent(); showToast('Backup importato.');
       });
@@ -775,13 +920,16 @@ function buildStrip(){
 function amtHtml(k,label,value){
   return '<label class="amt"><input data-k="'+k+'" inputmode="decimal" enterkeyhint="done" autocomplete="off" aria-label="'+label+'" value="'+fmtIn(value)+'"><span class="eur">\u20ac</span></label>';
 }
+var ICON_PENCIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>';
 function esc(s){ return String(s).replace(/[&<>"']/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]; }); }
 function rowHtml(c,i){
-  var hint = c.custom ? (c.start===c.end ? 'Solo in questo mese' : 'Voce aggiunta da te') : c.hint;
+  var hint = c.custom ? (Object.keys(c.on).length===1 ? 'Solo in questo mese' : 'Voce aggiunta da te') : c.hint;
   var n = esc(c.name);
   return '<div class="row" data-c="'+c.id+'">'+
     '<button type="button" class="minus" data-remove="'+c.id+'" aria-label="Togli '+n+' da questo mese"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg></i></button>'+
-    '<div class="nm"><span class="t">'+n+'</span>'+(hint?'<small>'+esc(hint)+'</small>':'')+'</div>'+
+    '<div class="nm"><span class="tl"><span class="t">'+n+'</span>'+
+      '<button type="button" class="ren" data-rename="'+c.id+'" aria-label="Rinomina '+n+'">'+ICON_PENCIL+'</button></span>'+
+      (hint?'<small>'+esc(hint)+'</small>':'')+'</div>'+
     '<button type="button" class="reset" aria-label="Ripristina l\u2019importo standard: '+n+'" title="Ripristina">'+svgReset()+'</button>'+
     amtHtml('c:'+c.id, n+', budget del mese', catVal(c,i))+
   '</div>';
@@ -966,6 +1114,12 @@ function bindEdit(host){
     if(e.key==='Enter' && e.target.matches && e.target.matches('input[data-k]')) e.target.blur();
   });
   host.addEventListener('click', function(e){
+    var rn = e.target.closest ? e.target.closest('[data-rename]') : null;
+    if(rn){ openRename(rn.getAttribute('data-rename')); return; }
+    if(editMode && e.target.closest){
+      var nmEl = e.target.closest('.nm'), rowEl = nmEl && nmEl.closest('.row[data-c]');
+      if(rowEl && rowEl.parentNode===elList){ openRename(rowEl.getAttribute('data-c')); return; }
+    }
     var mb = e.target.closest ? e.target.closest('[data-remove]') : null;
     if(mb){ removeRow(mb.getAttribute('data-remove')); return; }
     var rb = e.target.closest ? e.target.closest('[data-restore]') : null;
@@ -989,7 +1143,7 @@ function setEdit(on){
   editMode = on;
   elList.classList.toggle('editing', on);
   btnEdit.setAttribute('aria-pressed', on ? 'true':'false');
-  btnEdit.innerHTML = on ? ICON_CHECK+'Fine' : ICON_MINUS+'Togli';
+  btnEdit.innerHTML = on ? ICON_CHECK+'Fine' : ICON_PENCIL+'Modifica';
   editHint.hidden = !on;
 }
 btnEdit.addEventListener('click', function(){ setEdit(!editMode); });
@@ -1054,7 +1208,84 @@ fWhenBox.addEventListener('click', function(e){
 sheet.addEventListener('click', function(e){ if(e.target===sheet) closeSheet(); });
 fName.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); fAmt.focus(); } });
 fAmt.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); submitSheet(); } });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !sheet.hidden) closeSheet(); });
+/* Modulo "Rinomina" */
+var rsheet = $('rsheet'), rName = $('rName'), rErr = $('rErr'), rOrig = $('rOrig'), renId = null;
+function openRename(id){
+  var c = findCat(id); if(!c) return;
+  renId = id; rName.value = c.name; rErr.hidden = true;
+  var o = c.custom ? null : origName(id);
+  if(o && o!==c.name){ rOrig.hidden = false; rOrig.textContent = 'Torna al nome originale: '+o; }
+  else rOrig.hidden = true;
+  rsheet.hidden = false;
+  setTimeout(function(){ try{ rName.focus(); rName.select(); }catch(x){} }, 60);
+}
+function saveRename(name){
+  var nm = String(name).trim().replace(/\s+/g,' ');
+  if(!nm){ rErr.textContent = 'Scrivi il nuovo nome.'; rErr.hidden = false; rName.focus(); return; }
+  renameCat(renId, nm.slice(0,40));
+  queueSave(); rsheet.hidden = true; renderList(); refresh();
+  showToast('Voce rinominata: '+nm+'.');
+}
+$('rCancel').addEventListener('click', function(){ rsheet.hidden = true; });
+$('rOk').addEventListener('click', function(){ saveRename(rName.value); });
+rOrig.addEventListener('click', function(){ saveRename(origName(renId)); });
+rName.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); saveRename(rName.value); } });
+rsheet.addEventListener('click', function(e){ if(e.target===rsheet) rsheet.hidden = true; });
+
+/* Modulo "Copia mese" */
+var csheet = $('csheet'), cGrid = $('cGrid'), cOk = $('cOk'), cSel = {};
+function openCopy(){
+  var p = ym(cur), h = '', lastY = null, rowOpen = false;
+  $('cTitle').textContent = 'Copia '+MONTHS[p.m-1];
+  $('cNote').textContent = 'Scegli su quali mesi replicare voci e importi di '+MONTHS[p.m-1]+' '+p.y+'. Stipendio e riporto non cambiano.';
+  cSel = {};
+  for(var i=0;i<N;i++){
+    var q = ym(i);
+    if(q.y!==lastY){
+      if(rowOpen) h += '</div>';
+      h += '<div class="cyear">'+q.y+'</div><div class="crow">';
+      rowOpen = true; lastY = q.y;
+    }
+    h += '<button type="button" class="cchip" data-i="'+i+'" aria-pressed="false"'+(i===cur?' disabled':'')+
+         ' aria-label="'+MONTHS[q.m-1]+' '+q.y+'">'+MABB[q.m-1]+'</button>';
+  }
+  if(rowOpen) h += '</div>';
+  cGrid.innerHTML = h;
+  updateCopyBtn();
+  csheet.hidden = false;
+  var nxt = cGrid.querySelector('[data-i="'+Math.min(N-1,cur+1)+'"]');
+  if(nxt) try{ nxt.scrollIntoView({block:'nearest'}); }catch(x){}
+}
+function updateCopyBtn(){
+  var n = Object.keys(cSel).length;
+  cOk.disabled = n===0;
+  cOk.textContent = n===0 ? 'Copia' : 'Copia su '+n+(n===1?' mese':' mesi');
+}
+cGrid.addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('.cchip') : null;
+  if(!b || b.disabled) return;
+  var i = b.getAttribute('data-i');
+  if(cSel[i]){ delete cSel[i]; b.setAttribute('aria-pressed','false'); }
+  else { cSel[i] = true; b.setAttribute('aria-pressed','true'); }
+  updateCopyBtn();
+});
+$('cCancel').addEventListener('click', function(){ csheet.hidden = true; });
+csheet.addEventListener('click', function(e){ if(e.target===csheet) csheet.hidden = true; });
+cOk.addEventListener('click', function(){
+  var targets = Object.keys(cSel).map(Number).sort(function(a,b){ return a-b; });
+  if(!targets.length) return;
+  var snapshot = JSON.stringify(serialize()), src = cur;
+  targets.forEach(function(t){ copyMonth(src, t); });
+  queueSave(); csheet.hidden = true; renderList(); refresh();
+  var label = targets.length===1 ? MONTHS[ym(targets[0]).m-1]+' '+ym(targets[0]).y : targets.length+' mesi';
+  showToast('Copiato su '+label+'.', 'Annulla', function(){
+    adopt(JSON.parse(snapshot)); queueSave(); renderMonth(); showToast('Copia annullata.');
+  });
+});
+$('btnCopy').addEventListener('click', openCopy);
+
+function closeSheets(){ sheet.hidden = true; rsheet.hidden = true; csheet.hidden = true; }
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSheets(); });
 setEdit(false);
 
 elPrev.addEventListener('click', function(){ go(-1); });
@@ -1068,6 +1299,7 @@ document.addEventListener('keydown', function(e){
   var a = document.activeElement;
   if(a && (a.tagName==='INPUT' || a.tagName==='TEXTAREA')) return;
   if(view==='budget'){ if(e.key==='ArrowLeft') go(-1); if(e.key==='ArrowRight') go(1); }
+  if(view==='vac'){ if(e.key==='ArrowLeft') goVac(-1); if(e.key==='ArrowRight') goVac(1); }
 });
 var tx=0, ty=0, tracking=false;
 vBudget.addEventListener('touchstart', function(e){
@@ -1306,6 +1538,77 @@ sNext.addEventListener('click', function(){
   else if(statMode==='year') statYear = Math.min(2030, statYear+1);
   renderStats();
 });
+
+/* ---------- Fondo vacanze ---------- */
+var vPage = 0, tName = $('tName'), tSub = $('tSub'), tTot = $('tTot'), vAllEl = $('vAll'), vDots = $('vDots'), vPrev = $('vPrev'), vNext = $('vNext'), tripEl = $('trip');
+function vacTot(t){ return (cents(t.edo)+cents(t.ale))/100; }
+function vacAll(){ var s=0; state.vac.forEach(function(t){ s += cents(t.edo)+cents(t.ale); }); return s/100; }
+function refreshVac(){
+  tTot.innerHTML = fmt(vacTot(state.vac[vPage]))+'<span class="eur">\u20ac</span>';
+  vAllEl.textContent = fmt(vacAll())+' \u20ac';
+}
+function renderVac(){
+  if(vPage>=state.vac.length) vPage = 0;
+  var t = state.vac[vPage], a = document.activeElement;
+  if(a!==tName) tName.value = t.name;
+  tSub.textContent = 'Viaggio '+(vPage+1)+' di '+state.vac.length;
+  ['edo','ale'].forEach(function(k){
+    var el = tripEl.querySelector('input[data-v="'+k+'"]');
+    if(a!==el){ el.value = fmtIn(t[k]); el.classList.remove('bad'); }
+  });
+  var h = '';
+  for(var k=0;k<state.vac.length;k++)
+    h += '<button type="button" class="vdot" data-p="'+k+'" aria-label="'+esc(state.vac[k].name)+'"'+(k===vPage?' aria-current="true"':'')+'></button>';
+  vDots.innerHTML = h;
+  fitText($('vacTitle'));
+  vPrev.setAttribute('aria-disabled', vPage===0 ? 'true':'false');
+  vNext.setAttribute('aria-disabled', vPage===state.vac.length-1 ? 'true':'false');
+  refreshVac();
+}
+function goVac(d){
+  var n = Math.max(0, Math.min(state.vac.length-1, vPage+d));
+  if(n!==vPage){ vPage = n; renderVac(); }
+}
+vPrev.addEventListener('click', function(){ goVac(-1); });
+vNext.addEventListener('click', function(){ goVac(1); });
+vDots.addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('[data-p]') : null;
+  if(b){ vPage = parseInt(b.getAttribute('data-p'),10); renderVac(); }
+});
+tripEl.addEventListener('input', function(e){
+  var el = e.target;
+  if(el===tName){ state.vac[vPage].name = el.value.slice(0,30); queueSave(); return; }
+  var k = el.getAttribute && el.getAttribute('data-v'); if(!k) return;
+  var v = parse(el.value);
+  if(v===null){ el.classList.add('bad'); return; }
+  el.classList.remove('bad');
+  state.vac[vPage][k] = v; refreshVac(); queueSave();
+});
+tripEl.addEventListener('change', function(e){
+  var el = e.target;
+  if(el===tName){
+    var nm = el.value.trim().replace(/\s+/g,' ') || VAC_NAMES[vPage] || ('Viaggio '+(vPage+1));
+    state.vac[vPage].name = nm; el.value = nm; queueSave(); renderVac(); return;
+  }
+  var k = el.getAttribute('data-v'); if(!k) return;
+  var v = parse(el.value); if(v===null) v = state.vac[vPage][k];
+  state.vac[vPage][k] = v; el.value = fmtIn(v); el.classList.remove('bad'); refreshVac(); queueSave();
+});
+tripEl.addEventListener('focusin', function(e){
+  var el = e.target; if(el.tagName!=='INPUT') return;
+  setTimeout(function(){ try{ el.select(); }catch(x){} }, 0);
+});
+tripEl.addEventListener('keydown', function(e){ if(e.key==='Enter' && e.target.tagName==='INPUT') e.target.blur(); });
+var vtx=0, vty=0, vtrack=false;
+vVac.addEventListener('touchstart', function(e){
+  if(e.touches.length!==1 || (e.target.closest && e.target.closest('input'))){ vtrack=false; return; }
+  vtrack=true; vtx=e.touches[0].clientX; vty=e.touches[0].clientY;
+}, {passive:true});
+vVac.addEventListener('touchend', function(e){
+  if(!vtrack) return; vtrack=false;
+  var t=e.changedTouches[0], dx=t.clientX-vtx, dy=t.clientY-vty;
+  if(Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)*1.8) goVac(dx<0?1:-1);
+}, {passive:true});
 
 window.addEventListener('resize', function(){
   if(view==='budget') fitText(elName);
