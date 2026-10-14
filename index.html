@@ -294,6 +294,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btn-primary:disabled{opacity:.4}
 
 /* Fondo vacanze */
+.fund{background:var(--surface);border-radius:12px;padding:14px 16px;margin:0 0 16px}
+.fund-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.flabel{font-weight:600;font-size:15.5px;line-height:1.25}
+.amt.big{width:168px;height:54px}
+.amt.big input{font-size:22px;font-weight:700}
+.fbar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden;margin:14px 0 9px}
+.ffill{height:100%;width:0;border-radius:4px;background:var(--red)}
+.ffill.over{background:var(--neg)}
+.fstats{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;font-size:13.5px;color:var(--muted)}
+.fstats b{color:var(--text);font-weight:600;margin-left:4px;white-space:nowrap}
+.fstats b.pos{color:var(--pos)}
+.fstats b.neg{color:var(--neg)}
 .vpager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
 .vdots{display:flex;gap:2px}
 .vdot{position:relative;width:34px;height:30px;border:0;background:none;padding:0}
@@ -412,6 +424,17 @@ button{font:inherit;color:inherit;cursor:pointer}
   <!-- FONDO VACANZE -->
   <section class="view" id="vVac" aria-label="Fondo vacanze" hidden>
     <h2 class="vtitle" id="vacTitle">Fondo vacanze</h2>
+    <div class="fund">
+      <div class="fund-top">
+        <span class="flabel">Fondo vacanze<br>totale</span>
+        <label class="amt big"><input id="fundIn" inputmode="decimal" enterkeyhint="done" autocomplete="off" aria-label="Fondo vacanze totale"><span class="eur">&euro;</span></label>
+      </div>
+      <div class="fbar"><div class="ffill" id="fFill"></div></div>
+      <div class="fstats" aria-live="polite">
+        <span>Assegnato<b id="fAss"></b></span>
+        <span><span id="fRestLbl">Da assegnare</span><b id="fRest"></b></span>
+      </div>
+    </div>
     <div class="vpager">
       <button class="arrow" id="vPrev" type="button" aria-label="Viaggio precedente">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
@@ -430,7 +453,6 @@ button{font:inherit;color:inherit;cursor:pointer}
         <label class="amt"><input data-v="ale" inputmode="decimal" enterkeyhint="done" autocomplete="off" aria-label="Quota Ale"><span class="eur">&euro;</span></label></div>
       <div class="row total"><div class="nm"><span class="t">Totale</span></div><div class="val" id="tTot"></div></div>
     </div>
-    <div class="vall"><span>Totale fondo vacanze</span><b id="vAll"></b></div>
   </section>
 
   <footer class="dock" id="dock" hidden>
@@ -534,7 +556,7 @@ CATS.forEach(function(c){
 
 var VAC_NAMES = ['Tenerife','TBD aprile','Cina'];
 function defaultVac(){ return VAC_NAMES.map(function(n){ return {name:n, edo:0, ale:0}; }); }
-var state = { opening:0, ov:{}, inc:{}, off:{}, custom:[], names:{}, vac:defaultVac(), t:0 };
+var state = { opening:0, ov:{}, inc:{}, off:{}, custom:[], names:{}, vac:defaultVac(), vacFund:0, t:0 };
 
 // Voci aggiunte dall'utente: {id, name, amount, start, end} (indici dei mesi, estremi inclusi)
 function customCat(u){ return {id:u.id, name:u.name, amount:u.amount, on:u.on, custom:true, seasonal:false, hint:''}; }
@@ -693,7 +715,7 @@ function applyPayForward(i){
 /*CORE-END*/
 
 /* ---------- Persistenza ---------- */
-var APP_VERSION = '1.2';
+var APP_VERSION = '1.3';
 var LS_KEY = 'nobudget.v1';
 var docRef = null, cloudOn = false, saving = false, dirty = false, saveTimer = null;
 
@@ -734,12 +756,12 @@ function adopt(s){
     if(typeof t.name==='string' && t.name.trim()) vac[k].name = t.name.trim().slice(0,30);
     vac[k].edo = cleanNum(t.edo)||0; vac[k].ale = cleanNum(t.ale)||0;
   });
-  state = { opening: cleanNum(s&&s.opening)||0, ov:ov, inc:inc, off:off, custom:custom, names:names, vac:vac, t: cleanNum(s&&s.t)||0 };
+  state = { opening: cleanNum(s&&s.opening)||0, ov:ov, inc:inc, off:off, custom:custom, names:names, vac:vac, vacFund: cleanNum(s&&s.vacFund)||0, t: cleanNum(s&&s.t)||0 };
 }
 function serialize(){
   return { v:3, t:state.t, opening:state.opening, ov:state.ov, inc:state.inc, off:state.off,
     custom: state.custom.map(function(u){ return {id:u.id, name:u.name, amount:u.amount, m:Object.keys(u.on).map(Number).sort(function(a,b){return a-b;})}; }),
-    names:state.names, vac:state.vac };
+    names:state.names, vac:state.vac, vacFund:state.vacFund };
 }
 function localSave(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(serialize())); }catch(e){} }
 function localLoad(){
@@ -858,7 +880,10 @@ function renderHome(){
   $('homeBudgetSub').textContent = cap(MONTHS[p.m-1])+' '+p.y+', saldo '+(s>0?'+':'')+fmt0(s)+' \u20ac';
   var tt = vHome.querySelectorAll('.bt-title'); for(var q=0;q<tt.length;q++) fitText(tt[q]);
   $('ver').textContent = 'NoBudget, versione '+APP_VERSION;
-  $('homeVacSub').textContent = state.vac.length+' viaggi, totale '+fmt0(vacAll())+' \u20ac';
+  var vRest = state.vacFund - vacAll();
+  $('homeVacSub').textContent = state.vacFund>0
+    ? 'Fondo '+fmt0(state.vacFund)+' \u20ac, '+(vRest>=0 ? 'da assegnare '+fmt0(vRest) : 'oltre di '+fmt0(-vRest))+' \u20ac'
+    : state.vac.length+' viaggi, assegnati '+fmt0(vacAll())+' \u20ac';
   $('storeNote').textContent = cloudOn
     ? 'I dati sono salvati sul tuo account e su questo dispositivo.'
     : 'I dati sono salvati solo su questo dispositivo. Ogni tanto esporta un backup.';
@@ -894,7 +919,7 @@ $('fileImport').addEventListener('change', function(){
     try{
       var j = JSON.parse(r.result);
       var d = (j && j.data) ? j.data : j;
-      if(!d || typeof d!=='object' || (!d.ov && !d.inc && !d.custom && !d.off && !d.vac && !d.names && d.opening===undefined)) throw new Error('bad');
+      if(!d || typeof d!=='object' || (!d.ov && !d.inc && !d.custom && !d.off && !d.vac && !d.names && d.vacFund===undefined && d.opening===undefined)) throw new Error('bad');
       showToast('Backup letto. Sostituisce i dati attuali.', 'Sostituisci', function(){
         adopt(d); queueSave(); rerenderCurrent(); showToast('Backup importato.');
       });
@@ -1540,17 +1565,26 @@ sNext.addEventListener('click', function(){
 });
 
 /* ---------- Fondo vacanze ---------- */
-var vPage = 0, tName = $('tName'), tSub = $('tSub'), tTot = $('tTot'), vAllEl = $('vAll'), vDots = $('vDots'), vPrev = $('vPrev'), vNext = $('vNext'), tripEl = $('trip');
+var vPage = 0, tName = $('tName'), tSub = $('tSub'), tTot = $('tTot'), fundIn = $('fundIn'), fFill = $('fFill'), fAss = $('fAss'), fRest = $('fRest'), fRestLbl = $('fRestLbl'), vDots = $('vDots'), vPrev = $('vPrev'), vNext = $('vNext'), tripEl = $('trip');
 function vacTot(t){ return (cents(t.edo)+cents(t.ale))/100; }
 function vacAll(){ var s=0; state.vac.forEach(function(t){ s += cents(t.edo)+cents(t.ale); }); return s/100; }
 function refreshVac(){
   tTot.innerHTML = fmt(vacTot(state.vac[vPage]))+'<span class="eur">\u20ac</span>';
-  vAllEl.textContent = fmt(vacAll())+' \u20ac';
+  var ass = vacAll(), fund = state.vacFund, rest = (cents(fund)-cents(ass))/100;
+  fAss.textContent = fmt(ass)+' \u20ac';
+  if(cents(fund)===0){ fRestLbl.textContent = 'Fondo da impostare'; fRest.textContent = ''; fRest.className = ''; }
+  else if(rest>=0){ fRestLbl.textContent = 'Da assegnare'; fRest.textContent = fmt(rest)+' \u20ac'; fRest.className = 'pos'; }
+  else { fRestLbl.textContent = 'Oltre il fondo'; fRest.textContent = fmt(-rest)+' \u20ac'; fRest.className = 'neg'; }
+  var pct = fund>0 ? Math.min(100, ass/fund*100) : (ass>0 ? 100 : 0);
+  fFill.style.width = pct.toFixed(1)+'%';
+  fFill.classList.toggle('over', rest<0 && cents(fund)>0);
+  if(cents(fund)===0) fFill.style.width = '0%';
 }
 function renderVac(){
   if(vPage>=state.vac.length) vPage = 0;
   var t = state.vac[vPage], a = document.activeElement;
   if(a!==tName) tName.value = t.name;
+  if(a!==fundIn){ fundIn.value = fmtIn(state.vacFund); fundIn.classList.remove('bad'); }
   tSub.textContent = 'Viaggio '+(vPage+1)+' di '+state.vac.length;
   ['edo','ale'].forEach(function(k){
     var el = tripEl.querySelector('input[data-v="'+k+'"]');
@@ -1599,6 +1633,18 @@ tripEl.addEventListener('focusin', function(e){
   setTimeout(function(){ try{ el.select(); }catch(x){} }, 0);
 });
 tripEl.addEventListener('keydown', function(e){ if(e.key==='Enter' && e.target.tagName==='INPUT') e.target.blur(); });
+fundIn.addEventListener('input', function(){
+  var v = parse(fundIn.value);
+  if(v===null){ fundIn.classList.add('bad'); return; }
+  fundIn.classList.remove('bad');
+  state.vacFund = v; refreshVac(); queueSave();
+});
+fundIn.addEventListener('change', function(){
+  var v = parse(fundIn.value); if(v===null) v = state.vacFund;
+  state.vacFund = v; fundIn.value = fmtIn(v); fundIn.classList.remove('bad'); refreshVac(); queueSave();
+});
+fundIn.addEventListener('focus', function(){ setTimeout(function(){ try{ fundIn.select(); }catch(x){} }, 0); });
+fundIn.addEventListener('keydown', function(e){ if(e.key==='Enter') fundIn.blur(); });
 var vtx=0, vty=0, vtrack=false;
 vVac.addEventListener('touchstart', function(e){
   if(e.touches.length!==1 || (e.target.closest && e.target.closest('input'))){ vtrack=false; return; }
